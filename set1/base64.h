@@ -1,6 +1,8 @@
 #ifndef __BASE64_H__
 #define __BASE64_H__
 
+#include "string.h"
+
 /*
  * Number of padding characters in the base64 encoding of x octets
  */
@@ -18,13 +20,13 @@
 #define BASE64_LENGTH(x) ((((x) + 2) / 3) * 4)
 
 /*
- * convert "length" raw bytes to base64 string
+ * convert raw bytes to base64 string
  */
-char* encode_base64(char* bytes, int length);
+String* encode_base64(String *bytes);
 
 /*
  * convert base64 string with "length" chars to raw bytes
  */
-char* decode_base64(char* base64, int length);
+String* decode_base64(String *base64);
 
 #endif

@@ -1,14 +1,16 @@
 #ifndef __HEX_H__
 #define __HEX_H__
 
-/*
- * convert "length" raw bytes to hex string
- */
-char* encode_hex(char* bytes, int length);
+#include "string.h"
 
 /*
- * convert hex string with "length" chars to raw bytes
+ * convert raw bytes to hex string
  */
-char* decode_hex(char* hex, int length);
+String* encode_hex(String* bytes);
+
+/*
+ * convert hex string to raw bytes
+ */
+String* decode_hex(String *hex);
 
 #endif

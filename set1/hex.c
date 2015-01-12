@@ -8,19 +8,19 @@
 const char HEX_CHARS[] = "0123456789abcdef";
 
 /*
- * convert "length" raw bytes to null-terminated hex string
+ * convert raw bytes to null-terminated hex string
  */
-char* encode_hex(char* bytes, int length)
+String* encode_hex(String *bytes)
 {
     // two hex chars per byte
-    int hexlength = 2 * length;
+    int hexlength = 2 * bytes->len;
 
     // allocate output string (plus null suffix)
     char *hex = (char*)malloc(hexlength + 1);
 
     // convert via array lookup
     for (int i = 0; i < hexlength; i++) {
-        unsigned char byte = bytes[i];
+        unsigned char byte = bytes->s[i];
         unsigned char upper = (byte >> 4) & 0xf;
         unsigned char lower = byte & 0xf;
         hex[2*i] = HEX_CHARS[upper];
@@ -30,28 +30,28 @@ char* encode_hex(char* bytes, int length)
     // add null termination
     hex[hexlength] = 0;
 
-    return hex;
+    return make_string(hex, hexlength);
 }
 
 /*
- * convert hex string with "length" chars to raw bytes
+ * convert hex string to raw bytes
  */
-char* decode_hex(char* hex, int hex_length)
+String* decode_hex(String* hex)
 {
     // don't allow dangling nibbles
     // user must be decoding an integer number of bytes
-    if (hex_length & 1) return NULL;
+    if (hex->len & 1) return NULL;
 
     // two hex chars per byte
-    int bytes_length = hex_length / 2;
+    int bytes_length = hex->len / 2;
 
     // allocate output string
     char *bytes = (char*)malloc(bytes_length);
 
     // convert via ascii arithmetic
     for (int i = 0; i < bytes_length; i++) {
-        char hex_upper = hex[2*i];
-        char hex_lower = hex[(2*i)+1];
+        char hex_upper = hex->s[2*i];
+        char hex_lower = hex->s[(2*i)+1];
         char byte = 0;
 
         // convert upper hex char 
@@ -78,5 +78,5 @@ char* decode_hex(char* hex, int hex_length)
         bytes[i] = byte;
     }
 
-    return bytes;
+    return make_string(bytes, bytes_length);
 }
