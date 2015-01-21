@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "fmemopen.h"
 #include "../string.h"
 
 /*
  * index into counts array for bigram c1 + c2
  */
-#define INDEX(c1, c2) (((unsigned int)(c1) << 8) | ((unsigned int)(c2)))
+#define INDEX(c1, c2) (((unsigned int)(unsigned char)(c1) << 8) | ((unsigned int)(unsigned char)(c2)))
 
 /*
  * Analyze the text from the stream fp, returning the relative frequency of
@@ -75,16 +76,39 @@ void print_freqs(float *freqs)
     }
 }
 
-int main(int argc, char **argv)
+/*
+ * Return the sum of the squares of the differences between elements in f1 and f2
+ *
+ * f1 and f2 must have at least "size" elements
+ */
+float sum_square_diff(float *f1, float *f2, int size)
 {
-    // FILE *fp = fopen(argv[1], "r");
-    // float *freqs = bigram_relative_freq(fp);
-    // fclose(fp);
+    float ret = 0;
+    for (int i = 0; i < size; i++) {
+        float diff = f1[i] - f2[i];
+        ret += diff * diff;
+    }
+    return ret;
+}
 
-    char hello[] = "hello world! Abracadabra.";
-    float *freqs = bigram_relative_freq_str(make_string(hello, 25));
-    print_freqs(freqs);
-    free(freqs);
+/*
+ * Return a difference factor between the text in "filename" and the text in "string"
+ */
+float bigram_freq_diff(char *filename, String *string)
+{
+    // get bigram frequency of text in file
+    FILE *fp = fopen(filename, "r");
+    float *file_freqs = bigram_relative_freq(fp);
+    fclose(fp);
 
-    return 0;
+    // get bigram frequency of text in string
+    float *str_freqs = bigram_relative_freq_str(string);
+
+    // get difference between frequencies
+    float diff = sum_square_diff(file_freqs, str_freqs, 256 * 256);
+
+    // clean up and return
+    free(str_freqs);
+    free(file_freqs);
+    return diff;
 }

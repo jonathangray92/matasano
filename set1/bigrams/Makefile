@@ -1,9 +1,8 @@
-GCC_FLAGS = -O2 
+GCC_FLAGS = -g
 
-bigram: bigram.c
-	gcc bigram.c fmemopen.c ../string.c -o bigram
+all: bigram.o
 
-%.o: %.c
+%.o: %.c 
 		gcc -c $(GCC_FLAGS) $< -o $@
 
 clean:
