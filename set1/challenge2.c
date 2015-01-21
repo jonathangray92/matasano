@@ -8,10 +8,9 @@ int main()
 {
     char input_1[] = "1c0111001f010100061a024b53535009181c";
     char input_2[] = "686974207468652062756c6c277320657965";
-    int input_len = 36;
 
-    String *hex_1 = make_string(input_1, input_len);
-    String *hex_2 = make_string(input_2, input_len);
+    String *hex_1 = make_string(input_1);
+    String *hex_2 = make_string(input_2);
 
     String *bytes_1 = decode_hex(hex_1);
     String *bytes_2 = decode_hex(hex_2);

@@ -22,5 +22,5 @@ String* fixed_xor(String *s1, String *s2)
     }
 
     // return result as String struct
-    return make_string(output, s1->len);
+    return make_string_bytes(output, s1->len);
 }

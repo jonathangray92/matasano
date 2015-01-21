@@ -76,7 +76,7 @@ String* encode_base64(String* bytes)
     }
 
     // allocate and return String struct
-    return make_string(base64, base64_length);
+    return make_string(base64);
 }
 
 /*
@@ -137,7 +137,7 @@ String* decode_base64(String *base64)
     bytes[bytes_length] = 0;
 
     // construct a string struct and return a pointer to it
-    return make_string(bytes, bytes_length);
+    return make_string_bytes(bytes, bytes_length);
 }
 
 /*

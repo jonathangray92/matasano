@@ -30,7 +30,7 @@ String* encode_hex(String *bytes)
     // add null termination
     hex[hexlength] = 0;
 
-    return make_string(hex, hexlength);
+    return make_string(hex);
 }
 
 /*
@@ -78,5 +78,5 @@ String* decode_hex(String* hex)
         bytes[i] = byte;
     }
 
-    return make_string(bytes, bytes_length);
+    return make_string_bytes(bytes, bytes_length);
 }
